@@ -16,20 +16,24 @@
 		</ul>
 	</div> -->
 	<div class="movie_body">
-		<ul>
-			<li v-for="comelist in comeList" :key="comelist.id">
-				<div class="pic_show"><img :src="comelist.img | setWH('120.180')"/></div>
-				<div class="info_list">
-					<h2>{{comelist.nm}}<img v-if="comelist.version" src="@/assets/maxs.png"/></h2>
-					<p><span class="person">{{comelist.wish}}</span> 人想看</p>
-					<p>主演：{{comelist.star}}</p>
-					<p>{{comelist.rt}}</p>
-				</div>
-				<div class="btn_pre">
-					预售
-				</div>
-			</li>
-		</ul>
+		<Loading v-if="isloding"/>
+		<Scroller v-else :headleToscroll="headleToscroll" :headleTotouchend="headleTotouchend">
+			<ul>
+				<li class="pullDown">{{pullDownmsg}}</li>
+				<li v-for="comelist in comeList" :key="comelist.id">
+					<div class="pic_show"><img :src="comelist.img | setWH('120.180')"/></div>
+					<div class="info_list">
+						<h2>{{comelist.nm}}<img v-if="comelist.version" src="@/assets/maxs.png"/></h2>
+						<p><span class="person">{{comelist.wish}}</span> 人想看</p>
+						<p>主演：{{comelist.star}}</p>
+						<p>{{comelist.rt}}</p>
+					</div>
+					<div class="btn_pre">
+						预售
+					</div>
+				</li>
+			</ul>
+		</Scroller>
 	</div>
 </template>
 
@@ -38,18 +42,47 @@ export default{
 	name : "Comingsoon",
 	data(){
 		return{
-			comeList:[]
+			comeList:[],
+			pullDownmsg:"",
+			isloding:true,
+			prevCityid:-1
 		}
 	},
-	mounted(){
-		this.axios.get('/api/movieComingList?cityId=10').then((res)=>{
-			console.log(res)
+	activated(){
+		var cityId = this.$store.state.citys.id;
+		if(this.prevCityid === cityId){return;};
+		this.isloding = true;
+		
+		this.axios.get('/api/movieComingList?cityId='+cityId).then((res)=>{
 			//拿到返回数据的结果做判断
 			var msg = res.data.msg;
 			if(msg === "ok"){
 				this.comeList = res.data.data.comingList;
+				this.isloding = false;
+				this.prevCityid = cityId;
 			}
 		})
+	},
+	methods:{
+		headleToscroll(pos){
+			if(pos.y>30){
+				this.pullDownmsg = "正在更新中"
+			}
+		},
+		headleTotouchend(pos){
+			if(pos.y>30){
+				this.axios.get('/api/movieOnInfoList?cityId=20').then((res)=>{
+					var msg = res.data.msg;
+					if(msg === "ok"){
+						this.pullDownmsg = "更新成功"
+						setTimeout(()=>{
+							this.movieList = res.data.data.movieList;
+							this.pullDownmsg = ""
+						}, 1000)		
+					}
+				})
+			}
+		}
 	}
 }
 </script>
@@ -67,4 +100,5 @@ export default{
 .movie_body .info_list img{ width:50px; position: absolute; right:10px; top: 5px;}
 .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #f03d37; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
 .movie_body .btn_pre{ background-color: #3c9fe6;}
+.movie_body .pullDown{padding:0;margin:0;border:none;}
 </style>

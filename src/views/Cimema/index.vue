@@ -4,7 +4,7 @@
 		<div id="content">
 			<div class="cinema_menu">
 				<div class="city_switch">
-					全城 <i class="iconfont icon-lower-triangle"></i>
+					{{$store.state.citys.nm}} <i class="iconfont icon-lower-triangle"></i>
 				</div>
 				<div class="brand_swtich">
 					品牌 <i class="iconfont icon-lower-triangle"></i>
