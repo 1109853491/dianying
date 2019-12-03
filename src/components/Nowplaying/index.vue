@@ -21,9 +21,9 @@
 			<ul>
 				<li class="pullDown">{{pullDownmsg}}</li>
 				<li v-for="nowList in movieList" :key="nowList.id">
-					<div class="pic_show" @tap="toDetail"><img :src="nowList.img | setWH('128.180')"></div>
+					<div class="pic_show" @tap="toDetail(nowList.id)"><img :src="nowList.img | setWH('128.180')"></div>
 					<div class="info_list">
-						<h2>{{nowList.nm}}<img v-if="nowList.version" src="@/assets/maxs.png"/></h2>
+						<h2 @tap="toDetail(nowList.id)">{{nowList.nm}}<img v-if="nowList.version" src="@/assets/maxs.png"/></h2>
 						<p>观众评 <span class="grade">{{nowList.sc}}</span></p>
 						<p>主演: {{nowList.star}}</p>
 						<p>{{nowList.showInfo}}</p>
@@ -70,8 +70,8 @@ export default{
 		})
 	},
 	methods : {
-		toDetail(){
-			console.log("toDetail")
+		toDetail(movieId){
+			this.$router.push('/movie/detail/1/' + movieId)
 		},
 		headleToscroll(pos){
 			if(pos.y>30){

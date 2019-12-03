@@ -21,9 +21,9 @@
 			<ul>
 				<li class="pullDown">{{pullDownmsg}}</li>
 				<li v-for="comelist in comeList" :key="comelist.id">
-					<div class="pic_show"><img :src="comelist.img | setWH('120.180')"/></div>
+					<div class="pic_show" @tap="toDetail(comelist.id)"><img :src="comelist.img | setWH('120.180')"/></div>
 					<div class="info_list">
-						<h2>{{comelist.nm}}<img v-if="comelist.version" src="@/assets/maxs.png"/></h2>
+						<h2 @tap="toDetail(comelist.id)">{{comelist.nm}}<img v-if="comelist.version" src="@/assets/maxs.png"/></h2>
 						<p><span class="person">{{comelist.wish}}</span> 人想看</p>
 						<p>主演：{{comelist.star}}</p>
 						<p>{{comelist.rt}}</p>
@@ -82,6 +82,9 @@ export default{
 					}
 				})
 			}
+		},
+		toDetail(movieId){
+			this.$router.push('/movie/detail/2/' + movieId)
 		}
 	}
 }
