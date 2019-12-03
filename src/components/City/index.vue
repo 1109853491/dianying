@@ -146,8 +146,8 @@ export default{
 		},
 		handleTocity(nm,id){
 			this.$store.commit('citys/CITY_INFO',{nm,id});
-			window.localStorage.setItem('nowNm',nm);
-			window.localStorage.setItem('nowId',id);
+			window.localStorage.setItem('nownm',nm);
+			window.localStorage.setItem('nowid',id);
 			this.$router.push('movie/Nowplaying')
 		}
 

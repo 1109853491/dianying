@@ -19,6 +19,7 @@
 			</keep-alive>
 		</div>
 		<Footer />
+		<router-view name="detail"/>
 	</div>
 </template>
 <script>
@@ -46,8 +47,8 @@ export default{
 						cancel:'取消',
 						ok:'切换定位',
 						handleOk(){
-							window.localStorage.setItem('nowNm',nm);
-                            window.localStorage.setItem('nowId',id);
+							window.localStorage.setItem('nownm',nm);
+                            window.localStorage.setItem('nowid',id);
                             window.location.reload();
 						}
 					})
