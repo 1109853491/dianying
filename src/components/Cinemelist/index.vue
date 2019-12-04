@@ -24,7 +24,7 @@
 					</div>
 					<div class="address">
 						<span>{{cineme.addr}}</span>
-						<span>{{cineme.distance}}km</span>
+						<span>{{cineme.distance}}</span>
 					</div>
 					<div class="card">
 	        			<div v-for="(num,key) in cineme.tag" v-if="num===1" :class="key | claseCrd">{{key | cardCode}}</div>
